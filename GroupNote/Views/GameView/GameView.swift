@@ -31,14 +31,12 @@ struct GameView: View {
                     LazyVGrid(columns: columns, spacing: 5) {
                         ForEach(0..<9) { i in
                             ZStack {
-                                Circle()
-                                    .foregroundColor(.blue.opacity(0.7))
-                                    .frame(width: geomtry.size.width / 3 - 15, height: geomtry.size.width / 3 - 15 )
-                                Image(systemName: "applelogo")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
-                                    .foregroundColor(.white)
+                                GameSquareView(proxy: geomtry)
+                                PlayerIndicatorView(systemImageName: "applelogo")
                                     
+                            }
+                            .onTapGesture {
+                                print("tap on spot", i)
                             }
                         }
                     }

@@ -18,7 +18,6 @@ struct GameView: View {
             VStack {
                 Text("Waiting for the player")
                 Button {
-                    print("Quit the game")
                     dismiss()
                 } label: {
                     GameButton(title: "Quit", backgroundColor: Color(.systemRed))

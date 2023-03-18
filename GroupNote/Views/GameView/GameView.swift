@@ -23,7 +23,7 @@ struct GameView: View {
                 }
                 
                 
-                Text("Loading View")
+                LoadingView()
                 
                 Spacer()
                 

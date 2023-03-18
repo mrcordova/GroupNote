@@ -9,15 +9,17 @@ import SwiftUI
 
 struct GameView: View {
     
-    let columns: [GridItem] = [GridItem(.flexible()),
-                               GridItem(.flexible()),
-                               GridItem(.flexible())]
+
+    @ObservedObject var viewModel: GameViewModel
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         GeometryReader { geomtry in
             VStack {
                 Text("Waiting for the player")
                 Button {
                     print("Quit the game")
+                    dismiss()
                 } label: {
                     GameButton(title: "Quit", backgroundColor: Color(.systemRed))
                 }
@@ -28,7 +30,7 @@ struct GameView: View {
                 Spacer()
                 
                 VStack {
-                    LazyVGrid(columns: columns, spacing: 5) {
+                    LazyVGrid(columns: viewModel.columns, spacing: 5) {
                         ForEach(0..<9) { i in
                             ZStack {
                                 GameSquareView(proxy: geomtry)
@@ -47,8 +49,8 @@ struct GameView: View {
     }
 }
 
-struct GameView_Previews: PreviewProvider {
-    static var previews: some View {
-        GameView()
-    }
-}
+//struct GameView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GameView()
+//    }
+//}

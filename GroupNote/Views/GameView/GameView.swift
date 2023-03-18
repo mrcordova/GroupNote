@@ -32,8 +32,13 @@ struct GameView: View {
                         ForEach(0..<9) { i in
                             ZStack {
                                 Circle()
-                                    .foregroundColor(.blue)
-                                    .frame(width: geomtry.size.width / 3 - 15, height: geomtry.size.height / 3 - 15 )
+                                    .foregroundColor(.blue.opacity(0.7))
+                                    .frame(width: geomtry.size.width / 3 - 15, height: geomtry.size.width / 3 - 15 )
+                                Image(systemName: "applelogo")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                                    .foregroundColor(.white)
+                                    
                             }
                         }
                     }

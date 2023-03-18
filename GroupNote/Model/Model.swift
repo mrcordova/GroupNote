@@ -18,8 +18,8 @@ struct Move: Codable {
 
 struct Game: Codable {
     let idL :String
-    var player1id: String
-    var player2id: String
+    var player1Id: String
+    var player2Id: String
     var  blockMoveForPlayerId: String
     var winningPlayerId: String
     var rematchPlayerId: [String]

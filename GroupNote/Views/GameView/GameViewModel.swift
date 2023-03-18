@@ -15,7 +15,7 @@ final class GameViewModel: ObservableObject {
                                GridItem(.flexible()),
                                GridItem(.flexible())]
     
-    @Published var game = Game(idL: UUID().uuidString, player1id: "player1", player2id: "player2", blockMoveForPlayerId: "player2", winningPlayerId: "", rematchPlayerId: [], moves: Array(repeating: nil, count: 9))
+    @Published var game = Game(idL: UUID().uuidString, player1Id: "player1", player2Id: "player2", blockMoveForPlayerId: "player2", winningPlayerId: "", rematchPlayerId: [], moves: Array(repeating: nil, count: 9))
     @Published var currentUser: User!
     
     private let winPatterns: Set<Set<Int>> = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,1,2], [0, 4, 8], [2,4,6] ]

@@ -2,3 +2,7 @@
 *.pbxproj
 GroupNote.xcodeproj/project.pbxproj
 GroupNote.xcodeproj/project.pbxproj
+GroupNote.xcodeproj/xcuserdata/noahcordova.xcuserdatad/xcschemes/xcschememanagement.plist
+GroupNote.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+GroupNote.xcodeproj/xcuserdata/noahcordova.xcuserdatad/xcschemes/xcschememanagement.plist
+*.plist

@@ -13,6 +13,7 @@ struct GameView: View {
     @ObservedObject var viewModel: GameViewModel
     @Environment(\.dismiss) private var dismiss
     
+    
     var body: some View {
         GeometryReader { geomtry in
             VStack {
@@ -33,11 +34,11 @@ struct GameView: View {
                         ForEach(0..<9) { i in
                             ZStack {
                                 GameSquareView(proxy: geomtry)
-                                PlayerIndicatorView(systemImageName: "applelogo")
+                                PlayerIndicatorView(systemImageName: viewModel.game.moves[i]?.indicator ?? "applelogo")
                                     
                             }
                             .onTapGesture {
-                                print("tap on spot", i)
+                                viewModel.processPlayerMove(for: i)
                             }
                         }
                     }

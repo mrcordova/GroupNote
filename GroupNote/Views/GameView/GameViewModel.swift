@@ -40,20 +40,23 @@ final class GameViewModel: ObservableObject {
     func processPlayerMove(for position: Int) {
         guard game != nil else { return }
 
-        if isSquareOccupied(in: game?.moves ??  [], forIndex: position) { return }
+        if isSquareOccupied(in: game!.moves, forIndex: position) { return }
 
 
         game?.moves[position] = Move(isPlayer1: true, boardIndex: position)
-        game?.blockMoveForPlayerId = "player2"
-        // block the move
+        game?.blockMoveForPlayerId = currentUser.id
+        FirebaseService.shared.updateGame(game!)
 
         if checkForWinCondition(for: true, in: game?.moves ?? []) {
-            print("You have won")
+        
+            game?.winningPlayerId = currentUser.id
+            FirebaseService.shared.updateGame(game!)
             return
         }
 
         if checkForDraw(in: game?.moves ?? []) {
-            print("Draw")
+            game?.winningPlayerId = "0"
+            FirebaseService.shared.updateGame(game!)
             return
         }
     }
@@ -78,6 +81,11 @@ final class GameViewModel: ObservableObject {
     
     func quitGame()  {
         FirebaseService.shared.quitGame()
+    }
+    
+    func checkForGameBoardStatus() -> Bool {
+        print(currentUser.id)
+        return game != nil ? game!.blockMoveForPlayerId == currentUser.id : false
     }
     
     func saveUser() {

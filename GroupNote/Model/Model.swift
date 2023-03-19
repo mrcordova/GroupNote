@@ -20,7 +20,7 @@ struct Game: Codable {
     let id :String
     var player1Id: String
     var player2Id: String
-    var  blockMoveForPlayerId: String
+    var blockMoveForPlayerId: String
     var winningPlayerId: String
     var rematchPlayerId: [String]
     

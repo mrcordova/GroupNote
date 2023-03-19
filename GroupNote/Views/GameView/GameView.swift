@@ -44,6 +44,9 @@ struct GameView: View {
                         }
                     }
                 }
+                .disabled(viewModel.checkForGameBoardStatus())
+                .padding()
+                
             }
         }
         .onAppear {

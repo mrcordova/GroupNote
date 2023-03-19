@@ -22,8 +22,17 @@ final class GameViewModel: ObservableObject {
             //check the game status
             checkIfGameIsOver()
             
+            if game == nil {
+                updateGameNotifications(.finished)
+                
+            } else {
+                game?.player2Id == "" ? updateGameNotifications(.waitingForPlayer) : updateGameNotifications(.started)
+            }
+            
         }
     }
+    
+    @Published var gameNotification = GameNotification.waitingForPlayer
     @Published var currentUser: User!
     @Published var alertItem: AlertItem?
     
@@ -133,7 +142,16 @@ final class GameViewModel: ObservableObject {
         FirebaseService.shared.updateGame(game!)
         
     }
-    
+    func updateGameNotifications(_ state: GameState)  {
+        switch state {
+        case .started:
+            gameNotification = GameNotification.gameHasStarted
+        case .waitingForPlayer:
+            gameNotification = GameNotification.waitingForPlayer
+        case .finished:
+            gameNotification = GameNotification.gameFinished
+        }
+    }
     func saveUser() {
         currentUser = User()
         do {

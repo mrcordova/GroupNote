@@ -17,7 +17,7 @@ struct GameView: View {
     var body: some View {
         GeometryReader { geomtry in
             VStack {
-                Text("Waiting for the player")
+                Text(viewModel.gameNotification)
                 Button {
                     dismiss()
                     viewModel.quitGame()

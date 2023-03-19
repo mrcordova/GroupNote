@@ -17,7 +17,12 @@ final class GameViewModel: ObservableObject {
                                GridItem(.flexible())]
     
    
-    @Published var game: Game?
+    @Published var game: Game? {
+        didSet {
+            //check the game status
+            
+        }
+    }
     @Published var currentUser: User!
     
     private var cancellables: Set<AnyCancellable> = []
@@ -43,18 +48,18 @@ final class GameViewModel: ObservableObject {
         if isSquareOccupied(in: game!.moves, forIndex: position) { return }
 
 
-        game?.moves[position] = Move(isPlayer1: true, boardIndex: position)
+        game?.moves[position] = Move(isPlayer1: isPlayerOne(), boardIndex: position)
         game?.blockMoveForPlayerId = currentUser.id
         FirebaseService.shared.updateGame(game!)
 
-        if checkForWinCondition(for: true, in: game?.moves ?? []) {
+        if checkForWinCondition(for: true, in: game!.moves) {
         
             game?.winningPlayerId = currentUser.id
             FirebaseService.shared.updateGame(game!)
             return
         }
 
-        if checkForDraw(in: game?.moves ?? []) {
+        if checkForDraw(in: game!.moves) {
             game?.winningPlayerId = "0"
             FirebaseService.shared.updateGame(game!)
             return
@@ -84,8 +89,24 @@ final class GameViewModel: ObservableObject {
     }
     
     func checkForGameBoardStatus() -> Bool {
-        print(currentUser.id)
         return game != nil ? game!.blockMoveForPlayerId == currentUser.id : false
+    }
+    func isPlayerOne() -> Bool {
+        return game != nil ? game?.player1Id == currentUser.id : false
+    }
+    
+    func checkIfGameIsOver() {
+        guard game != nil else { return }
+        
+        if game!.winningPlayerId == "0" {
+            //draw
+        } else if game!.winningPlayerId != "" {
+            if game!.winningPlayerId == currentUser.id {
+                // we won
+            } else {
+                // we lost
+            }
+        }
     }
     
     func saveUser() {

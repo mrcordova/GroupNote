@@ -62,7 +62,7 @@ final class FirebaseService: ObservableObject {
             }
             if let snapshot = documentSnapshot {
                 self.game = try? snapshot.data(as: Game.self)
-                print("snapshot")
+                
             }
         }
     }

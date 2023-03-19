@@ -26,7 +26,9 @@ struct GameView: View {
                 }
                 
                 
-                LoadingView()
+                if viewModel.game?.player2Id == "" {
+                    LoadingView()
+                }
                 
                 Spacer()
                 

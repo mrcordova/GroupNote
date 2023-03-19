@@ -20,10 +20,12 @@ final class GameViewModel: ObservableObject {
     @Published var game: Game? {
         didSet {
             //check the game status
+            checkIfGameIsOver()
             
         }
     }
     @Published var currentUser: User!
+    @Published var alertItem: AlertItem?
     
     private var cancellables: Set<AnyCancellable> = []
     
@@ -52,7 +54,7 @@ final class GameViewModel: ObservableObject {
         game?.blockMoveForPlayerId = currentUser.id
         FirebaseService.shared.updateGame(game!)
 
-        if checkForWinCondition(for: true, in: game!.moves) {
+        if checkForWinCondition(for: isPlayerOne(), in: game!.moves) {
         
             game?.winningPlayerId = currentUser.id
             FirebaseService.shared.updateGame(game!)
@@ -100,13 +102,36 @@ final class GameViewModel: ObservableObject {
         
         if game!.winningPlayerId == "0" {
             //draw
+            alertItem = AlertContext.draw
         } else if game!.winningPlayerId != "" {
             if game!.winningPlayerId == currentUser.id {
                 // we won
+                alertItem = AlertContext.youWin
             } else {
                 // we lost
+                alertItem = AlertContext.youLost
             }
         }
+    }
+    func resetGame()  {
+        guard game != nil else {
+            alertItem = AlertContext.quit
+            return
+        }
+        
+        if game?.rematchPlayerId.count == 1 {
+            // start new game
+            game?.moves = Array(repeating: nil, count: 9)
+            game?.winningPlayerId = ""
+            game!.blockMoveForPlayerId = game!.player2Id
+        } else if game?.rematchPlayerId.count == 2 {
+            game!.rematchPlayerId = []
+        }
+        
+        game!.rematchPlayerId.append(currentUser.id)
+        
+        FirebaseService.shared.updateGame(game!)
+        
     }
     
     func saveUser() {

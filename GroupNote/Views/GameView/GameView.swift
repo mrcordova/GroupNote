@@ -36,6 +36,7 @@ struct GameView: View {
                     LazyVGrid(columns: viewModel.columns, spacing: 5) {
                         ForEach(0..<9) { i in
                             ZStack {
+                        
                                 GameSquareView(proxy: geomtry)
                                 PlayerIndicatorView(systemImageName: viewModel.game?.moves[i]?.indicator ?? "applelogo")
                                     
@@ -48,6 +49,23 @@ struct GameView: View {
                 }
                 .disabled(viewModel.checkForGameBoardStatus())
                 .padding()
+                .alert(item: $viewModel.alertItem) { alertItem in
+                    alertItem.isForQuit ? Alert(title: alertItem.title, message: alertItem.message, dismissButton: .destructive(alertItem.buttonTitle, action: {
+                        dismiss()
+                        viewModel.quitGame()
+                    })
+                                                )
+                    :
+                    Alert(title: alertItem.title, message: alertItem.message, primaryButton: .default(alertItem.buttonTitle, action: {
+                        // reset game
+                        viewModel.resetGame()
+                        
+                    }), secondaryButton: .destructive(Text("Quit"), action: {
+                        dismiss()
+                        viewModel.quitGame()
+                    }))
+                    
+                }
                 
             }
         }

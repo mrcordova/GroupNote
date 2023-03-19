@@ -21,6 +21,11 @@ final class FirebaseService: ObservableObject {
     
     func createOnlineGame()  {
         // save the game online
+        do {
+            try FirebaseReference(.Game).document(self.game.id).setData(from: self.game)
+        } catch {
+            print("Error creating online game \(error.localizedDescription)")
+        }
     }
     
     func startGame(with userId: String)   {
@@ -52,14 +57,23 @@ final class FirebaseService: ObservableObject {
     }
     
     func updateGame(_ game: Game) {
-        
+        do {
+            try FirebaseReference(.Game).document(game.id).setData(from: self.game)
+        } catch {
+            print("Error updating online game \(error.localizedDescription)")
+        }
     }
     
     func createNewGame(with userId: String) {
         // create new game object
+        print("creating game for userid \(userId)")
+        self.game = Game(id: UUID().uuidString, player1Id: userId, player2Id: "", blockMoveForPlayerId: userId, winningPlayerId: "", rematchPlayerId: [], moves: Array(repeating: nil, count: 9))
+        self.createOnlineGame()
+        self.listenForGameChanges()
     }
     
     func quitGame() {
-        
+        guard game != nil else { return }
+        FirebaseReference(.Game).document(self.game.id).delete()
     }
 }

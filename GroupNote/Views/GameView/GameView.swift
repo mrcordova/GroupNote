@@ -20,6 +20,7 @@ struct GameView: View {
                 Text("Waiting for the player")
                 Button {
                     dismiss()
+                    viewModel.quitGame()
                 } label: {
                     GameButton(title: "Quit", backgroundColor: Color(.systemRed))
                 }
@@ -34,7 +35,7 @@ struct GameView: View {
                         ForEach(0..<9) { i in
                             ZStack {
                                 GameSquareView(proxy: geomtry)
-                                PlayerIndicatorView(systemImageName: viewModel.game.moves[i]?.indicator ?? "applelogo")
+                                PlayerIndicatorView(systemImageName: viewModel.game?.moves[i]?.indicator ?? "applelogo")
                                     
                             }
                             .onTapGesture {
@@ -44,6 +45,9 @@ struct GameView: View {
                     }
                 }
             }
+        }
+        .onAppear {
+            viewModel.getTheGame()
         }
        
     }

@@ -17,7 +17,7 @@ struct Move: Codable {
 }
 
 struct Game: Codable {
-    let idL :String
+    let id :String
     var player1Id: String
     var player2Id: String
     var  blockMoveForPlayerId: String
